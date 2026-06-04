@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.db
+!backend/data.db
+backend/venv/
+backend/scripts/
+__pycache__/
+*.pyc
+.DS_Store
+.claude/
+memory/
+ai/
+frontend/backend/
+
