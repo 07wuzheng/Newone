@@ -96,6 +96,25 @@ export const useToolStore = defineStore('tool', () => {
     }
   }
 
+  // 一次性加载首页所需全部数据（合并原 categories/featured/editor-picks/stats 4 请求）
+  async function fetchHomeInit() {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await api.get('/home-init')
+      const data = res.data.data
+      featured.value = data.featured
+      editorPicks.value = data.editor_picks
+      stats.value = data.stats
+      return data.categories
+    } catch (err) {
+      error.value = err.response?.data?.detail || '加载失败，请检查网络连接'
+      return null
+    } finally {
+      loading.value = false
+    }
+  }
+
   async function submitTool(formData) {
     submitting.value = true
     error.value = null

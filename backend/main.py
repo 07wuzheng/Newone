@@ -179,6 +179,43 @@ def health_check():
     return {"status": "ok"}
 
 
+# ── 首页聚合接口（减少冷启动场景下 4 次 RTT） ──
+from fastapi import Depends
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import func as sa_func
+from database import get_db
+from models import Tool, Category
+from routers.tools import tool_to_dict
+
+
+@app.get("/api/home-init")
+def home_init(db: Session = Depends(get_db)):
+    """一次返回首页所需全部数据，替代原先 4 个独立请求。"""
+    categories = db.query(Category).all()
+    featured = db.query(Tool).options(joinedload(Tool.category)).filter(Tool.is_featured == True).all()
+    editor_picks = db.query(Tool).options(joinedload(Tool.category)).filter(Tool.editor_pick == True).all()
+    total_tools = db.query(sa_func.count(Tool.id)).scalar() or 0
+    total_categories = db.query(sa_func.count(Category.id)).scalar() or 0
+    featured_count = db.query(sa_func.count(Tool.id)).filter(Tool.is_featured == True).scalar() or 0
+    editor_pick_count = db.query(sa_func.count(Tool.id)).filter(Tool.editor_pick == True).scalar() or 0
+    return {
+        "data": {
+            "categories": [
+                {"id": c.id, "name": c.name, "slug": c.slug, "description": c.description, "icon": c.icon}
+                for c in categories
+            ],
+            "featured": [tool_to_dict(t) for t in featured],
+            "editor_picks": [tool_to_dict(t) for t in editor_picks],
+            "stats": {
+                "total_tools": total_tools,
+                "total_categories": total_categories,
+                "featured_tools": featured_count,
+                "editor_picks": editor_pick_count,
+            },
+        }
+    }
+
+
 # ---- 简易内存限流器 ----
 class RateLimiter:
     def __init__(self, max_per_minute=5, max_per_day=200):

@@ -180,11 +180,13 @@ const featuredNoDup = computed(() => {
   return toolStore.featured.filter(t => !picked.has(t.id))
 })
 
-function retry() {
-  catStore.fetchCategories()
-  toolStore.fetchFeatured()
-  toolStore.fetchStats()
-  toolStore.fetchEditorPicks()
+async function retry() {
+  // 一次聚合请求加载首页所有数据，减少 RTT
+  const cats = await toolStore.fetchHomeInit()
+  if (cats) {
+    catStore.categories = cats
+    catStore.error = null
+  }
 }
 
 onMounted(retry)
