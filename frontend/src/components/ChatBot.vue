@@ -1,9 +1,9 @@
 <template>
-  <div class="fixed bottom-5 right-5 z-50">
-    <!-- 触发按钮 -->
+  <div class="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-50">
+    <!-- 触发按钮（mobile 略小，避免遮挡内容） -->
     <button v-if="!open" @click="open = true"
-      class="w-14 h-14 rounded-full bg-[var(--brand)] text-white shadow-[0_4px_20px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.5)] hover:-translate-y-0.5 transition-all flex items-center justify-center">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[var(--brand)] text-white shadow-[0_4px_20px_rgba(79,70,229,0.35)] hover:shadow-[0_6px_24px_rgba(79,70,229,0.5)] hover:-translate-y-0.5 transition-all flex items-center justify-center">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
       </svg>
     </button>

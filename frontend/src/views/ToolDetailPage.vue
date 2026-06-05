@@ -81,7 +81,7 @@
             <p class="text-[var(--text-secondary)] leading-relaxed text-[15px] sm:text-base">{{ store.currentTool.description }}</p>
           </div>
 
-          <!-- 标签 & 定价 -->
+          <!-- 标签 & 定价（分类已在面包屑显示，标签中与分类同名的已过滤） -->
           <div class="flex flex-wrap items-center gap-2 mb-5 sm:mb-6">
             <!-- 定价 -->
             <span v-if="store.currentTool.pricing"
@@ -91,14 +91,10 @@
               {{ pricingLabel }}
             </span>
             <!-- 标签 -->
-            <RouterLink v-for="tag in store.currentTool.tags" :key="tag" :to="`/search?tag=${tag}`"
+            <RouterLink v-for="tag in dedupedTags" :key="tag" :to="`/search?tag=${tag}`"
               class="inline-block text-xs px-3 py-1.5 rounded-full bg-[var(--brand-subtle)] text-[var(--brand)] font-medium hover:bg-[var(--brand)] hover:text-white transition-colors">
               {{ tag }}
             </RouterLink>
-            <!-- 分类 -->
-            <span class="text-xs font-medium text-[var(--text-tertiary)] bg-gray-100 px-3 py-1.5 rounded-full">
-              {{ store.currentTool.category_name }}
-            </span>
           </div>
 
           <!-- 优缺点 -->
@@ -202,6 +198,13 @@ const pricingLabel = computed(() => {
   if (p === 'freemium') return '免费增值'
   if (p === 'paid') return '付费'
   return p || ''
+})
+
+// 过滤掉跟分类同名的标签，避免与面包屑重复
+const dedupedTags = computed(() => {
+  const tags = store.currentTool?.tags || []
+  const cat = store.currentTool?.category_name || ''
+  return tags.filter(t => t !== cat && t !== cat.replace(/\s/g, ''))
 })
 
 const prosList = computed(() => {

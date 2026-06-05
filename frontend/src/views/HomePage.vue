@@ -9,7 +9,7 @@
     </div>
 
     <!-- Hero -->
-    <section class="relative text-center py-16 sm:py-24 overflow-hidden rounded-[var(--radius-xl)] mb-12 sm:mb-16">
+    <section class="relative text-center py-10 sm:py-20 overflow-hidden rounded-[var(--radius-xl)] mb-8 sm:mb-14">
       <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/80 via-white to-purple-50/80"></div>
       <div class="absolute top-1/4 -left-10 w-[500px] h-[500px] bg-indigo-300/15 rounded-full blur-[120px]"></div>
       <div class="absolute bottom-1/4 -right-10 w-[400px] h-[400px] bg-purple-300/15 rounded-full blur-[120px]"></div>
@@ -18,11 +18,11 @@
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           收录 {{ catStore.categories.length }} 个分类
         </div>
-        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] mb-5 leading-[1.1]">
+        <h1 class="text-3xl sm:text-6xl font-bold tracking-tight text-[var(--text-primary)] mb-3 sm:mb-5 leading-[1.1]">
           发现 AI 工具
         </h1>
-        <p class="text-base sm:text-lg text-[var(--text-secondary)] mb-8 sm:mb-10 max-w-md mx-auto leading-relaxed">
-          探索、发现、对比各类 AI 工具，找到最适合你的那一款
+        <p class="text-sm sm:text-lg text-[var(--text-secondary)] mb-6 sm:mb-10 max-w-md mx-auto leading-relaxed px-4">
+          在 ChatGPT 之外，还有 60+ 款值得知道的 AI 工具
         </p>
         <div class="max-w-lg mx-auto">
           <RouterLink to="/search"
@@ -148,15 +148,15 @@
         <p>暂无推荐工具</p>
       </div>
       <div v-else-if="!toolStore.error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div v-for="(tool, i) in toolStore.featured.slice(0, 6)" :key="tool.id" :class="`stagger-${i + 1}`">
+        <div v-for="(tool, i) in featuredNoDup.slice(0, 6)" :key="tool.id" :class="`stagger-${i + 1}`">
           <ToolCard :tool="tool" />
         </div>
       </div>
-      <div v-if="!toolStore.loading && !toolStore.error && toolStore.featured.length > 6"
+      <div v-if="!toolStore.loading && !toolStore.error && featuredNoDup.length > 6"
         class="mt-6 sm:mt-8 text-center">
         <RouterLink to="/search"
           class="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--brand)] hover:text-[var(--brand-dark)] transition-colors">
-          浏览全部 {{ toolStore.featured.length }}+ 工具
+          浏览全部工具
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </RouterLink>
       </div>
@@ -165,7 +165,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useCategoryStore } from '../stores/categories'
 import { useToolStore } from '../stores/tools'
 import CategoryCard from '../components/CategoryCard.vue'
@@ -173,6 +173,12 @@ import ToolCard from '../components/ToolCard.vue'
 
 const catStore = useCategoryStore()
 const toolStore = useToolStore()
+
+// 热门推荐去掉已经在"编辑精选"展示过的，避免视觉重复
+const featuredNoDup = computed(() => {
+  const picked = new Set(toolStore.editorPicks.map(t => t.id))
+  return toolStore.featured.filter(t => !picked.has(t.id))
+})
 
 function retry() {
   catStore.fetchCategories()
