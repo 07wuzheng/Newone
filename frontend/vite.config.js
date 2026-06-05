@@ -4,8 +4,14 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
+  base: '/',
+  build: {
+    outDir: '../backend/frontend_dist',
+    emptyOutDir: true,
+  },
   server: {
     proxy: {
+      '/api': 'http://localhost:8899',
       '/static': 'http://localhost:8899',
     },
   },

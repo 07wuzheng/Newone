@@ -140,11 +140,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
+# ── 静态资源 ──
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend_dist")
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="frontend_assets")
 
 app.include_router(categories.router)
 app.include_router(tools.router)
 app.include_router(submissions.router)
+
+# ── SPA fallback ──
+from starlette.responses import FileResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+@app.exception_handler(StarletteHTTPException)
+async def spa_fallback(request: Request, exc):
+    if exc.status_code != 404:
+        raise exc
+    path = request.url.path
+    # API 和静态资源 404 不拦截
+    if path.startswith("/api/") or path.startswith("/static/") or path.startswith("/assets/"):
+        raise exc
+    # 先检查文件是否存在（favicon.svg, icons.svg 等根目录文件）
+    file_path = os.path.join(FRONTEND_DIR, path.lstrip("/"))
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    # SPA fallback
+    index_path = os.path.join(FRONTEND_DIR, "index.html")
+    if os.path.isfile(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    raise exc
 
 
 @app.get("/api/health")
