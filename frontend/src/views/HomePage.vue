@@ -129,6 +129,8 @@
           <h2 class="section-title">热门推荐</h2>
           <p class="section-subtitle">精选最受欢迎的 AI 工具</p>
         </div>
+        <RouterLink to="/search"
+          class="text-sm text-[var(--brand)] hover:underline font-medium shrink-0">查看全部</RouterLink>
       </div>
       <div v-if="toolStore.loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <div v-for="i in 6" :key="i" class="card-white bg-white rounded-[var(--radius-md)] overflow-hidden">
@@ -146,9 +148,17 @@
         <p>暂无推荐工具</p>
       </div>
       <div v-else-if="!toolStore.error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div v-for="(tool, i) in toolStore.featured" :key="tool.id" :class="`stagger-${i + 1}`">
+        <div v-for="(tool, i) in toolStore.featured.slice(0, 6)" :key="tool.id" :class="`stagger-${i + 1}`">
           <ToolCard :tool="tool" />
         </div>
+      </div>
+      <div v-if="!toolStore.loading && !toolStore.error && toolStore.featured.length > 6"
+        class="mt-6 sm:mt-8 text-center">
+        <RouterLink to="/search"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--brand)] hover:text-[var(--brand-dark)] transition-colors">
+          浏览全部 {{ toolStore.featured.length }}+ 工具
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </RouterLink>
       </div>
     </section>
   </div>
