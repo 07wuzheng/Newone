@@ -10,7 +10,7 @@
 
     <!-- 聊天窗口 -->
     <div v-else
-      class="w-[360px] sm:w-[400px] h-[520px] bg-white rounded-[var(--radius-lg)] border border-gray-200/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden animate-slide-up origin-bottom-right">
+      class="w-[calc(100vw-2.5rem)] max-w-[360px] sm:w-[400px] sm:max-w-none h-[520px] max-h-[calc(100vh-6rem)] bg-white rounded-[var(--radius-lg)] border border-gray-200/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden animate-slide-up origin-bottom-right">
 
       <!-- 头部 -->
       <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-4 flex items-center justify-between shrink-0">

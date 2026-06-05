@@ -3,14 +3,69 @@
     <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-8">关于本项目</h1>
 
     <div class="card-white bg-white rounded-[var(--radius-lg)] border border-[var(--border-subtle)] shadow-[var(--shadow-sm)] p-5 sm:p-8 space-y-6 sm:space-y-8">
+      <!-- 一句话定位 -->
       <section>
         <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-2">AI 工具导航平台</h2>
         <p class="text-[var(--text-secondary)] leading-relaxed">
-          一个帮助用户发现和探索 AI 工具的导航目录网站。在这里，你可以浏览各类 AI 工具的分类，搜索感兴趣的工具，并了解它们的详细信息。
+          一个帮你在「ChatGPT 之外」发现 AI 工具的导航站。
+          收录 6 大场景下的 69 款工具，支持自然语言对话推荐。
         </p>
       </section>
 
-      <section class="border-t border-[var(--border-subtle)] pt-8">
+      <!-- 为什么做这个 -->
+      <section class="border-t border-[var(--border-subtle)] pt-6 sm:pt-8">
+        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">为什么做这个项目</h2>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+          ChatGPT 火了之后，AI 工具呈爆发式增长，但用户的痛点反而更尖锐：
+        </p>
+        <ul class="space-y-2 text-sm text-[var(--text-secondary)]">
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">·</span>
+            <span><strong>选择困难</strong>：同样是 AI 绘画，Midjourney / Flux / Stable Diffusion 怎么挑？</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">·</span>
+            <span><strong>信息不对称</strong>：付费 / 免费增值 / 免费的边界很模糊，用户经常踩坑</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">·</span>
+            <span><strong>发现成本高</strong>：好工具往往埋在 Twitter、产品猎人的角落</span>
+          </li>
+        </ul>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed mt-3">
+          这个产品的核心价值：<strong>把分散的 AI 工具按场景结构化整理</strong>，并提供一个能听懂自然语言的智能体助手。
+        </p>
+      </section>
+
+      <!-- 几个有意思的设计 -->
+      <section class="border-t border-[var(--border-subtle)] pt-6 sm:pt-8">
+        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">几个非显然的设计决策</h2>
+        <ul class="space-y-3 text-sm text-[var(--text-secondary)]">
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
+            <span><strong>AI 助手不让 LLM 写 SQL，让它输出 JSON 参数</strong>——可控性远高于灵活性，避免 LLM "幻觉" SQL 翻车</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
+            <span><strong>关键词同义词扩展 + 意图分类兜底</strong>——用户说"画画"自动扩展为绘画/图像；搜不到时降级按"画→ai-image"分类返回，避免空结果</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
+            <span><strong>多层成本控制</strong>——API key 服务端持有 + IP 限流（5/分、200/天）+ 每日 5000 tokens 预算上限，防止 DeepSeek 被刷爆</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
+            <span><strong>前后端合并到单 Vercel 项目</strong>——避免跨域、统一域名、降低运维。代价是数据库变只读，但作品集场景写入需求极低</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
+            <span><strong>动态调度间隔的版本嗅探</strong>——APScheduler 后台任务，成功 12 小时间隔、失败 30 分钟快速重试</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 技术栈 -->
+      <section class="border-t border-[var(--border-subtle)] pt-6 sm:pt-8">
         <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-4">技术栈</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div v-for="tech in techStack" :key="tech.name"
@@ -21,28 +76,31 @@
         </div>
       </section>
 
-      <section class="border-t border-[var(--border-subtle)] pt-8">
-        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">项目说明</h2>
-        <ul class="space-y-3 text-sm text-[var(--text-secondary)]">
+      <!-- 已知限制（诚实说） -->
+      <section class="border-t border-[var(--border-subtle)] pt-6 sm:pt-8">
+        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">已知限制</h2>
+        <ul class="space-y-2 text-sm text-[var(--text-secondary)]">
           <li class="flex gap-3">
-            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
-            <span>该项目为 AI PM 面试作品集项目，展示从需求分析到项目交付的全流程能力</span>
+            <span class="text-amber-500 shrink-0 mt-0.5">⚠</span>
+            <span>Vercel 在中国大陆无 CDN 节点，国内访问较慢，移动端可能加载超时（已迁函数区域到东京缓解）</span>
           </li>
           <li class="flex gap-3">
-            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
-            <span>MVP 阶段覆盖首页推荐、分类浏览、实时搜索、工具详情、提交工具等核心功能</span>
+            <span class="text-amber-500 shrink-0 mt-0.5">⚠</span>
+            <span>SQLite 在 Vercel serverless 上是只读的，用户提交的工具暂不持久化（计划迁 PostgreSQL）</span>
           </li>
           <li class="flex gap-3">
-            <span class="text-[var(--brand)] shrink-0 mt-0.5">◆</span>
-            <span>采用 Vue 3 + FastAPI 技术栈，前后端分离架构</span>
+            <span class="text-amber-500 shrink-0 mt-0.5">⚠</span>
+            <span>工具数据为人工整理 + 部分示例评分，仅用于功能演示</span>
           </li>
         </ul>
       </section>
 
-      <section class="border-t border-[var(--border-subtle)] pt-8">
-        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">数据来源</h2>
+      <!-- 项目定位 -->
+      <section class="border-t border-[var(--border-subtle)] pt-6 sm:pt-8">
+        <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-3">项目定位</h2>
         <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
-          平台中的工具数据为示例数据，仅用于功能演示。工具评分、描述等信息仅供参考。
+          这是一个 AI PM 面试作品集项目，目标是完整展示「需求分析 → 产品设计 → 技术选型 → 全栈开发 → 部署上线 → 复盘优化」的全流程能力。
+          代码不复杂，但每个非显然的决策都有原因。
         </p>
       </section>
     </div>
@@ -51,11 +109,15 @@
 
 <script setup>
 const techStack = [
-  { name: 'Vue 3', desc: '前端框架（Composition API）' },
-  { name: 'Tailwind CSS', desc: '样式框架' },
-  { name: 'FastAPI', desc: 'Python 后端框架' },
-  { name: 'SQLite', desc: '数据库' },
+  { name: 'Vue 3', desc: 'Composition API' },
+  { name: 'Tailwind CSS v4', desc: '原子化样式' },
   { name: 'Pinia', desc: '状态管理' },
-  { name: 'Vue Router', desc: '前端路由' },
+  { name: 'Vue Router', desc: 'SPA 路由' },
+  { name: 'FastAPI', desc: 'Python 后端' },
+  { name: 'SQLAlchemy', desc: 'ORM' },
+  { name: 'SQLite', desc: '数据库' },
+  { name: 'APScheduler', desc: '后台调度' },
+  { name: 'DeepSeek API', desc: 'LLM 智能体' },
+  { name: 'Vercel', desc: '合并部署' },
 ]
 </script>
