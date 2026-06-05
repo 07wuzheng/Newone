@@ -13,3 +13,6 @@ memory/
 ai/
 frontend/backend/
 
+.vercel
+check_images.py
+fix_images.py
