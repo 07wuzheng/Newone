@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; }
+  .og {
+    width: 1200px;
+    height: 630px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 35%, #8b5cf6 65%, #ec4899 100%);
+    color: white;
+    text-align: center;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* 装饰背景圆 */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+  .blob-1 { width: 500px; height: 500px; background: #fff; top: -150px; left: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: #fbbf24; bottom: -100px; right: -50px; opacity: 0.3; }
+
+  .badge {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(20px);
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 36px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    z-index: 1;
+    letter-spacing: 0.5px;
+  }
+  h1 {
+    font-size: 102px;
+    font-weight: 800;
+    margin-bottom: 28px;
+    letter-spacing: -3px;
+    line-height: 1.05;
+    z-index: 1;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
+  .subtitle {
+    font-size: 34px;
+    margin-bottom: 56px;
+    opacity: 0.95;
+    line-height: 1.4;
+    max-width: 920px;
+    font-weight: 400;
+    z-index: 1;
+  }
+  .tags {
+    display: flex;
+    gap: 14px;
+    z-index: 1;
+  }
+  .tag {
+    background: rgba(255,255,255,0.16);
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 22px;
+    font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(20px);
+  }
+  .corner {
+    position: absolute;
+    bottom: 36px;
+    right: 48px;
+    font-size: 18px;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+    z-index: 1;
+  }
+  .brand-dot {
+    position: absolute;
+    top: 36px;
+    left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .brand-dot::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #34d399;
+    border-radius: 50%;
+    box-shadow: 0 0 16px #34d399;
+  }
+</style>
+</head>
+<body>
+<div class="og">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="brand-dot">AI Tool Navigator</div>
+  <div class="badge">✨ 收录 69 款 · 6 大场景 · 自然语言推荐</div>
+  <h1>发现 AI 工具</h1>
+  <div class="subtitle">在 ChatGPT 之外，还有 60+ 款值得知道的 AI 工具</div>
+  <div class="tags">
+    <div class="tag">🤖 LLM 对话</div>
+    <div class="tag">🎨 AI 绘画</div>
+    <div class="tag">🎬 AI 视频</div>
+    <div class="tag">💻 代码助手</div>
+  </div>
+  <div class="corner">backend-six-alpha-77.vercel.app</div>
+</div>
+</body>
+</html>
