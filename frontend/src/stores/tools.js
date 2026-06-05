@@ -134,5 +134,5 @@ export const useToolStore = defineStore('tool', () => {
     }
   }
 
-  return { featured, currentTool, searchResults, editorPicks, stats, loading, submitting, error, fetchFeatured, fetchTool, searchTools, fetchTools, fetchStats, fetchEditorPicks, submitTool }
+  return { featured, currentTool, searchResults, editorPicks, stats, loading, submitting, error, fetchFeatured, fetchTool, searchTools, fetchTools, fetchStats, fetchEditorPicks, fetchHomeInit, submitTool }
 })
